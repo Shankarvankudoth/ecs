@@ -3,15 +3,15 @@ data "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_ecs_cluster" "nginx-deployment" {
-  name = "nginx-deployment"
+  name = "amazon-deployment"
 
   tags = {
-    Name = "nginx-deployment"
+    Name = "amazon-deployment"
   }
 }
 
 resource "aws_ecs_service" "nginx-service" {
-  name            = "nginx-service"
+  name            = "amazon-service"
   cluster         = aws_ecs_cluster.nginx-deployment.id
   task_definition = aws_ecs_task_definition.nginx-task_definition.arn
   desired_count   = 1
@@ -25,19 +25,19 @@ resource "aws_ecs_service" "nginx-service" {
 }
 
 resource "aws_ecs_task_definition" "nginx-task_definition" {
-  family                = "nginx-task"
+  family                = "amazon-task"
   container_definitions = <<DEFINITION
 [
     {
-        "name": "nginx-container",
+        "name": "amazon-container",
         "image": "762233764679.dkr.ecr.ap-south-2.amazonaws.com/amazon",
         "cpu": 256,
         "memory": 512,
         "essential": true,
         "portMappings": [
             {
-                "containerPort": 80,
-                "hostPort": 80
+                "containerPort": 3000,
+                "hostPort": 3000
             }
         ]
     }
@@ -62,8 +62,8 @@ resource "aws_security_group" "ecs-aws_security_group" {
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
