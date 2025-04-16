@@ -30,7 +30,7 @@ resource "aws_ecs_task_definition" "nginx-task_definition" {
 [
     {
         "name": "nginx-container",
-        "image": "034362058614.dkr.ecr.us-east-1.amazonaws.com/myapp:latest",
+        "image": "762233764679.dkr.ecr.ap-south-2.amazonaws.com/amazon",
         "cpu": 256,
         "memory": 512,
         "essential": true,
